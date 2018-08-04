@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+	
+	<!-- aspect 선언 -->
+	<bean id="profileAspect" class="kr.or.ddit.aop.ProfileAspect"/>
+	
+	<aop:config>							<!-- ..은 여러개 -->
+		<aop:pointcut expression="execution(* kr.or.ddit..*.*(..))" id="allMethod"/>
+											<!--  *(..)은 모든 메서드 -->
+		<aop:aspect ref="profileAspect">
+			<aop:before method="beforeMethod" pointcut-ref="allMethod"/>
+		</aop:aspect>
+		
+	</aop:config>	
+	
+	
+	
+</beans>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<!-- service, dao scan : context:componentScan -->
+	
+	<context:annotation-config/>
+	
+	<!--기본 설정 : @Service, @Repository, @Controller, @Component -->
+	<!-- use-default-filters="false" -> 기본설정끄기 (모든 필터 무효화) -->
+	<!-- 방법 1 : 모든 설정 무효화 후 설정할 것만 include -->
+	<!-- 방법 2 : 기본 설정에서 뺄것만 exclude -->
+	<context:component-scan base-package="kr.or.ddit" use-default-filters="false">
+		<!-- ctrl + shift + t -> openType 으로 연 후 경로만 가져와서 붙여 넣고 어노테이션 이름 ㄱ -->
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>	
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>	
+	</context:component-scan>
+	
+	
+</beans>

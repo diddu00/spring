@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- 
+		Spring에서 관리할 bean을 선언(등록)하고
+		bean을 만드는 방법을 관리한다. 
+	 
+	 	IocService 객체 : IocDao가 설정된 객체
+	 	(IocService 내부에서 IocDao를 별도로 선언하지 않는)
+	 	
+	 	기존에는
+	 	IocServiceInf iocService = new IocService();
+	 	IocDaoInf iocDao = new IocDao();
+	 	
+	 	여기서는 dao와 service 객체의 bean을 만들어준다.
+	 	bean의 id속성은 레알 id같이 쓰면되고 일반적으로 인스턴스의 이름을 넣는다.
+	 	class 속성은 경로를 조진다.
+	 	
+	 	spring에서 관리하는 다른 bean에 주입하는 것은 ref라고 한다. (<constructor-arg ref="">)
+	 	
+	 	이것은 설명서를 만들었다고 생각한다고 생각하면 된다. 
+	 -->
+	 
+	 <!-- 생성자를 통한 주입 -->
+	 <bean id="iocService" class="kr.or.ddit.ioc.service.IocService">
+	 	<constructor-arg ref="iocDao"></constructor-arg>
+	 </bean>
+	 
+	 
+	  <!-- setter를 통한 주입 -->
+	 <bean id="iocSetterService" class="kr.or.ddit.ioc.service.IocService">
+	 	<property name="iocDao" ref="iocDao"></property>
+	 </bean>
+
+	<!-- design pattern - singleton : jvm에서 특정 클래스의 객체를 하나만 생성
+		 spring ioc - singleton : id당 한개. 스프링 bean id당 하나의 객체를 생성 
+	-->
+	 <bean id="iocDao" class="kr.or.ddit.ioc.dao.IocDao"/>
+	 <bean id="iocDao2" class="kr.or.ddit.ioc.dao.IocDao"/>
+	 
+	<!-- 
+   prototype test용 스프링 빈
+   prototype spting bean 은 DL을 할때마다 새로운 비능로 생성하여 리턴한다.
+    -->
+   <bean id="iocPrototypeDao" class="kr.or.ddit.ioc.dao.IocDao" scope="prototype"/>
+	 
+	 
+	<!-- singleton scope 스프링 빈(iocSingletonService)에
+		 prototype scope 스프링 빈(iocPrototype)을 주입하면
+		 주입받은 빈의 상태는?????????????   -->
+	<bean id="iocSingletonService" class="kr.or.ddit.ioc.service.IocService" scope="singleton">
+		<property name="iocDao" ref="iocPrototypeDao"/>
+	</bean> 
+	 
+</beans>
